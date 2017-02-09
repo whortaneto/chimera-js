@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai';
-import Library from '../src/index.js';
+import Chimera from '../src/index.js';
 
 chai.expect();
 
@@ -11,7 +11,7 @@ let lib;
 
 describe('Given an instance of my library', () => {
   before(() => {
-    lib = new Library();
+    lib = new Chimera();
   });
   describe('when I need the name', () => {
     it('should return the name', () => {
