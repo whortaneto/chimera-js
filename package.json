@@ -1,6 +1,6 @@
 {
   "name": "chimera-js",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Javascript library to facilitate the use of the web workers api.",
   "main": "lib/chimera.js",
   "scripts": {
@@ -28,13 +28,11 @@
     "url": "https://github.com/whortaneto/chimera-js.git"
   },
   "keywords": [
-    "webpack",
-    "es6",
-    "starter",
-    "library",
-    "universal",
-    "umd",
-    "commonjs"
+    "web-workers",
+    "worker",
+    "web",
+    "javascript",
+    "library"
   ],
   "author": "Krasimir Tsonev",
   "license": "MIT",
