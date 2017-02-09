@@ -1,4 +1,16 @@
 {
   "presets": ["es2015"],
-  "plugins": ["babel-plugin-add-module-exports"]
+  "plugins": ["babel-plugin-add-module-exports"],
+  "env": {
+    "test": {
+      "plugins": [
+        ["istanbul", {
+          "useInlineSourceMaps": false,
+          "exclude": [
+            "**/*.spec.js"
+          ]
+        }]
+      ]
+    }
+  }
 }

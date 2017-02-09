@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai';
-import Library from '../lib/chimera.js';
+import Library from '../src/index.js';
 
 chai.expect();
 

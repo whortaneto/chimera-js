@@ -1,1 +1,1 @@
-# chimera
+# chimera-js

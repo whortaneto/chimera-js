@@ -1,9 +1,9 @@
-/*global __dirname, require, module*/
+/* global __dirname, require, module*/
 
 const webpack = require('webpack');
 const UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 const path = require('path');
-const env  = require('yargs').argv.env; // use --env with webpack 2
+const env = require('yargs').argv.env; // use --env with webpack 2
 
 let libraryName = 'chimera';
 
@@ -35,7 +35,7 @@ const config = {
       },
       {
         test: /(\.jsx|\.js)$/,
-        loader: "eslint-loader",
+        loader: 'eslint-loader',
         exclude: /node_modules/
       }
     ]
