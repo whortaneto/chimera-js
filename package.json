@@ -4,7 +4,7 @@
   "description": "Javascript library to facilitate the use of the web workers api.",
   "main": "lib/chimera.js",
   "scripts": {
-    "build": "webpack --env build",
+    "build": "npm run test && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js"
