@@ -1,0 +1,9 @@
+#ignore source code
+/src/
+/src/chimera.js
+/src/index.js
+/src/meruem.js
+/src/neferpitou.worker.js
+
+#ignore tests
+/test/*.spec.js
