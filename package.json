@@ -4,6 +4,7 @@
   "description": "Javascript library to facilitate the use of the web workers api.",
   "main": "lib/chimera.js",
   "scripts": {
+    "just:build": "webpack --env build",
     "build": "npm run test && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
@@ -39,7 +40,8 @@
     "mocha": "2.3.4",
     "nyc": "^10.1.2",
     "webpack": "2.2.1",
-    "yargs": "6.6.0"
+    "yargs": "6.6.0",
+    "worker-loader": "^0.7.1"
   },
   "repository": {
     "type": "git",

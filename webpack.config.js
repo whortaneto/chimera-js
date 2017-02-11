@@ -7,7 +7,18 @@ const env = require('yargs').argv.env; // use --env with webpack 2
 
 let libraryName = 'chimera';
 
-let plugins = [], outputFile;
+let plugins = [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        worker: {
+          output: {
+            filename: 'neferpitou.worker.js',
+            chunkFilename: '[id].neferpitou.worker.js'
+          }
+        }
+      }
+    })
+  ], outputFile;
 
 if (env === 'build') {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
