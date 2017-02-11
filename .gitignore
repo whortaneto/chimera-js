@@ -70,11 +70,3 @@ node_modules
 
 #ignore macOS DS_Store
 .DS_Store
-
-#ignore transpiled code
-/lib/
-/lib/chimera.js
-/lib/chimera.js.map
-/lib/chimera.min.js
-/lib/neferpitou.worker.js
-/lib/neferpitou.worker.js.map
