@@ -10,7 +10,7 @@
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha --compilers js:babel-core/register --colors ./test/*.spec.js",
     "test:watch": "mocha --compilers js:babel-core/register --colors -w ./test/*.spec.js",
     "upgrade:version": "npm version patch && git push && npm publish",
-    "version": "npm run just:build && git add -A lib"
+    "version": "npm run just:build && git add ."
   },
   "nyc": {
     "include": [
