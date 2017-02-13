@@ -37,7 +37,7 @@ const Meruem = () => {
   const _createControllerObject = controllerName => {
     return new Promise(
         (resolve, reject) => {
-          let worker = new Worker('./chimera/neferpitou.js');
+          let worker = new Worker();
 
           worker.postMessage(controllerName);
 
