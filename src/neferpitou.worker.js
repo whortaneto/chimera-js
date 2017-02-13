@@ -1,11 +1,13 @@
 /*
   Module responsible for encapsulate the back-end scripts in a web worker
 */
+let WorkerGlobalScope = WorkerGlobalScope || {};
+
 const Pitou = (() => {
   const _buildControllerObject = () => {
     let controllerObject = {};
 
-    for (let method in Pitou.controller) {
+    for (let method in WorkerGlobalScope.controller) {
       controllerObject[method] = method;
     }
 
@@ -21,12 +23,12 @@ const Pitou = (() => {
 })();
 
 onmessage = e => { // eslint-disable-line
-  if (Pitou.controller) {
+  if (WorkerGlobalScope.controller) {
     let functionCall = JSON.parse(e.data);
     let resultado;
 
-    if (Pitou.controller.hasOwnProperty(functionCall.methodName) > -1) {
-      resultado = Pitou.controller[functionCall.methodName](...functionCall.arguments);
+    if (WorkerGlobalScope.controller.hasOwnProperty(functionCall.methodName) > -1) {
+      resultado = WorkerGlobalScope.controller[functionCall.methodName](...functionCall.arguments);
     }
 
     if (resultado) {
