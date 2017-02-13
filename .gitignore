@@ -70,3 +70,6 @@ node_modules
 
 #ignore macOS DS_Store
 .DS_Store
+
+#ignore lib files
+/lib/
