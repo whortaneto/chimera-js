@@ -1,6 +1,6 @@
 {
   "name": "chimera-js",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Javascript library to facilitate the use of the web workers api.",
   "main": "lib/chimera.js",
   "scripts": {
