@@ -25,7 +25,8 @@
     "instrument": false
   },
   "files": [
-    "src/index.js"
+    "lib/*.js",
+    "lib/*.js.map",
   ],
   "devDependencies": {
     "babel": "6.5.2",

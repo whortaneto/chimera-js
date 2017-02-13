@@ -1,3 +1,4 @@
 import Chimera from './chimera.js';
+import Pitou from './neferpitou.worker.js';
 
-export default Chimera;
+export default { Chimera, Pitou };
