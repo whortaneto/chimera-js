@@ -56,7 +56,7 @@ But basically, here is where you can get started:
   }
 ```
 
-This example will calculate the fibonacci of 42, process which normally blocks the JavaScript main thread and all it DOM(https://en.wikipedia.org/wiki/Document_Object_Model), but thanks to the power of [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) that will not happen and thanks to the API of the library `chimera-js` we developers can do that in a much easier way.
+This example will calculate the fibonacci of 42, process which normally blocks the JavaScript main thread and all it [DOM](https://en.wikipedia.org/wiki/Document_Object_Model), but thanks to the power of [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) that will not happen and thanks to the API of the library `chimera-js` we developers can do that in a much easier way.
 
 # Project structure
 
