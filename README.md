@@ -20,7 +20,22 @@ But basically, here is where you can get started:
   import Chimera from 'chimera-js';
 ```
 
-- After that you can use the `Chimera` object to specify another JavaScript file to run in parallel (Inside a web worker) through the method `setWorker`.
+  We have two ways to use a parallel web worker using `chimera-js`;
+
+- The first one is to use the `Chimera` object to specify a object with all the functions that you want to run in parallel through the method `exportToWorker`.
+  OBS: In version `0.1.17` you can't export arrow functions in a single line. You need to use the parentheses and the braces when using the method `exportToWorker`.
+
+```js
+  const _fibonacci = (n) => {
+    (n < 2) ? 1 : _fibonacci(n-2) + _fibonacci(n-1);
+  };
+
+  Chimera.exportToWorker({ fibonacci: _fibonacci }).then((worker) => {
+    // Do your code here
+  });
+```
+
+- The other one is that you can use the `Chimera` object to specify another JavaScript file to run in parallel (Inside a web worker) through the method `setWorker`.
 
 ```js
   Chimera.setWorker('./parallelExample.js').then((worker) => {
@@ -28,9 +43,13 @@ But basically, here is where you can get started:
   });
 ```
 
-- That method returns a Promise and the callback function executed by that promise will receive a object (`worker`) that you can use to call a function defined in the file `parallelExample.js`.
+- Either way the executed method will return a Promise and the callback function executed by that promise will receive a object (`worker`) that you can use to call a function defined in the file `parallelExample.js` or a function defined in the object exported.
 
 ```js
+  Chimera.exportToWorker({ fibonacci: _fibonacci }).then((worker) => {
+    // Do your code here
+  });
+  -------------------------------------------------------------
   Chimera.setWorker('./parallelExample.js').then((worker) => {
     worker.executeFibonacci(42);
   });

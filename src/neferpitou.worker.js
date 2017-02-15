@@ -12,11 +12,30 @@ const Pitou = (() => {
     return chimeraWorker;
   };
 
+  const _importFunctions = (functionsToImport) => {
+    let functionArguments, functionBody;
+
+    for (let key in functionsToImport) {
+      functionArguments = functionsToImport[key]
+                            .substring(functionsToImport[key].indexOf('(') + 1, functionsToImport[key].indexOf(')'))
+                            .replace(/\s/g, '')
+                            .split(',');
+
+      functionBody = functionsToImport[key]
+                        .substring(functionsToImport[key].indexOf('{'), functionsToImport[key].length);
+
+      functionsToImport[key] = new Function(...functionArguments, functionBody); // eslint-disable-line
+    }
+
+    WorkerGlobalScope.chimeraWorker = functionsToImport; // eslint-disable-line
+  };
+
   return {
     importWorker: (workerName) => {
       importScripts(workerName); // eslint-disable-line
     },
-    buildChimeraWorker: _buildChimeraWorker
+    buildChimeraWorker: _buildChimeraWorker,
+    importFunctions: _importFunctions
   };
 })();
 
@@ -38,7 +57,18 @@ onmessage = meruemMessage => { // eslint-disable-line
       postMessage(JSON.stringify(resultObject));
     }
   } else {
-    Pitou.importWorker(meruemMessage.data);
+    let isJSON = (str) => {
+      try {
+        JSON.parse(str);
+      } catch (e) {
+        return false;
+      }
+      return true;
+    };
+
+    isJSON(meruemMessage.data) ? Pitou.importFunctions(JSON.parse(meruemMessage.data)) :
+      Pitou.importWorker(meruemMessage.data);
+
     let chimeraWorker = Pitou.buildChimeraWorker();
 
     postMessage(JSON.stringify(chimeraWorker));

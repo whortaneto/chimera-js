@@ -1,5 +1,4 @@
 import PitouDefaultWorker from 'worker-loader!./neferpitou.worker';
-
 /*
     Module responsible for managing the chimera workers running in a web worker.
 */
@@ -34,27 +33,32 @@ const Meruem = () => {
     return chimeraWorkerWithMethods;
   };
 
-  const _createChimeraWorker = workerName => {
-    return new Promise(
-        (resolve, reject) => {
-          let pitouDefaultWorker = new PitouDefaultWorker();
+  const _buildChimeraWorkerPromise = (meruemMessage) => (resolve, reject) => {
+    let pitouDefaultWorker = new PitouDefaultWorker();
 
-          pitouDefaultWorker.postMessage(workerName);
+    pitouDefaultWorker.postMessage(meruemMessage);
 
-          pitouDefaultWorker.onmessage = e => {
-            let chimeraWorker = JSON.parse(e.data);
+    pitouDefaultWorker.onmessage = pitouResponse => {
+      let chimeraWorker = JSON.parse(pitouResponse.data);
 
-            resolve(_methodBuilder(chimeraWorker, pitouDefaultWorker));
-          };
-        }
-    );
+      resolve(_methodBuilder(chimeraWorker, pitouDefaultWorker));
+    };
   };
 
-  const _setChimeraWorker = workerName =>
-     _createChimeraWorker(workerName);
+  const _createChimeraWorker = workerName => new Promise(_buildChimeraWorkerPromise(workerName));
+
+  const _setChimeraWorker = workerName => _createChimeraWorker(workerName);
+
+  const _exportToWorker = (functionsToExport) => {
+    for (let key in functionsToExport) {
+      functionsToExport[key] = functionsToExport[key].toString();
+    }
+    return new Promise(_buildChimeraWorkerPromise(JSON.stringify(functionsToExport)));
+  };
 
   return {
-    setChimeraWorker: _setChimeraWorker
+    setChimeraWorker: _setChimeraWorker,
+    exportToWorker: _exportToWorker
   };
 };
 
