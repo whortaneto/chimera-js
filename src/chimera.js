@@ -1,11 +1,11 @@
-import ctrlManager from './meruem.js';
+import workerManager from './meruem.js';
 
 const Chimera = (() => {
-  const _setController = (controllerName) =>
-    ctrlManager.setController(controllerName);
+  const _setWorker = (workerName) =>
+    workerManager.setChimeraWorker(workerName);
 
   return {
-    setController: _setController
+    setWorker: _setWorker
   };
 })();
 

@@ -20,38 +20,38 @@ But basically, here is where you can get started:
   import Chimera from 'chimera-js';
 ```
 
-- After that you can use the `Chimera` object to specify another JavaScript file to run in parallel (Inside a web worker) through the method `setController`.
+- After that you can use the `Chimera` object to specify another JavaScript file to run in parallel (Inside a web worker) through the method `setWorker`.
 
 ```js
-  Chimera.setController('./parallelExample.js').then((controller) => {
+  Chimera.setWorker('./parallelExample.js').then((worker) => {
     // Do your code here
   });
 ```
 
-- That method returns a Promise and the callback function executed by that promise will receive a object (`controller`) that you can use to call a function (or any other functions) defined in the file `parallelExample.js`.
+- That method returns a Promise and the callback function executed by that promise will receive a object (`worker`) that you can use to call a function defined in the file `parallelExample.js`.
 
 ```js
-  Chimera.setController('./parallelExample.js').then((controller) => {
-    controller.executeFibonacci(42);
+  Chimera.setWorker('./parallelExample.js').then((worker) => {
+    worker.executeFibonacci(42);
   });
 ```
 
 - All functions of the code executed in parallel that have a `return` will return a Promise and the callback function executed by that promise will receive a parameter `result` that is the result returned by the executed function.
 
 ```js
-  Chimera.setController('./parallelExample.js').then((controller) => {
-    controller.executeFibonacci(42).then(result => {
+  Chimera.setWorker('./parallelExample.js').then((worker) => {
+    worker.executeFibonacci(42).then(result => {
         console.log(result);
     });
   });
 ```
 
-- To specify what functions will be available in your main thread you need to specify in the JavaScript code executed in parallel (in that case in the `parallelExample.js` file) by adding the public functions of your JavaScript code in the object `controller` inside the object `WorkerGlobalScope`.
+- To specify what functions will be available in your main thread you need to specify in the JavaScript code executed in parallel (in that case in the `parallelExample.js` file) by adding the public functions of your JavaScript code in the object `worker` inside the object `WorkerGlobalScope`.
 
 ```js
   const _fibonacci = n => (n < 2) ? 1 : _fibonacci(n-2) + _fibonacci(n-1);
 
-  WorkerGlobalScope.controller = {
+  WorkerGlobalScope.chimeraWorker = {
     executeFibonacci: _fibonacci
   }
 ```
@@ -86,5 +86,5 @@ The files inside the src folder are structured in that way:
 
 * `index.js`: End-point and modules export
 * `chimera.js`: Main module to expose `chimera-js` API methods
-* `meruem.js`: Module responsible for create and manage the controller object that is runned in ther web worker
-* `neferpitou.worker.js`: Default web worker that runs the parallel code and expose public functions to be used in the main thread. That one talks with `meruem.js` through the `controller` object.
+* `meruem.js`: Module responsible for create and manage the worker object that is created by chimera-js and runned in the web worker
+* `neferpitou.worker.js`: Default web worker that runs the parallel code and expose public functions to be used in the main thread. That one talks with `meruem.js` through the `chimeraWorker` object.

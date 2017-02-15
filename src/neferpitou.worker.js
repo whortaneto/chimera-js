@@ -1,46 +1,46 @@
 /*
-  Module responsible for encapsulate the back-end scripts in a web worker
+  Module responsible for encapsulate the specifed file scripts in a web worker
 */
 const Pitou = (() => {
-  const _buildControllerObject = () => {
-    let controllerObject = {};
+  const _buildChimeraWorker = () => {
+    let chimeraWorker = {};
 
-    for (let method in WorkerGlobalScope.controller) { // eslint-disable-line
-      controllerObject[method] = method;
+    for (let method in WorkerGlobalScope.chimeraWorker) { // eslint-disable-line
+      chimeraWorker[method] = method;
     }
 
-    return controllerObject;
+    return chimeraWorker;
   };
 
   return {
-    importController: (controllerName) => {
-      importScripts(controllerName); // eslint-disable-line
+    importWorker: (workerName) => {
+      importScripts(workerName); // eslint-disable-line
     },
-    buildControllerObject: _buildControllerObject
+    buildChimeraWorker: _buildChimeraWorker
   };
 })();
 
-onmessage = e => { // eslint-disable-line
-  if (WorkerGlobalScope.controller) { // eslint-disable-line
-    let functionCall = JSON.parse(e.data);
-    let resultado;
+onmessage = meruemMessage => { // eslint-disable-line
+  if (WorkerGlobalScope.chimeraWorker) { // eslint-disable-line
+    let functionCall = JSON.parse(meruemMessage.data);
+    let functionResult;
 
-    if (WorkerGlobalScope.controller.hasOwnProperty(functionCall.methodName) > -1) { // eslint-disable-line
-      resultado = WorkerGlobalScope.controller[functionCall.methodName](...functionCall.arguments); // eslint-disable-line
+    if (WorkerGlobalScope.chimeraWorker.hasOwnProperty(functionCall.methodName) > -1) { // eslint-disable-line
+      functionResult = WorkerGlobalScope.chimeraWorker[functionCall.methodName](...functionCall.arguments); // eslint-disable-line
     }
 
-    if (resultado) {
+    if (functionResult) {
       let resultObject = {};
 
       resultObject = {
-        result: resultado
+        result: functionResult
       };
       postMessage(JSON.stringify(resultObject));
     }
   } else {
-    Pitou.importController(e.data);
-    let controllerObject = Pitou.buildControllerObject();
+    Pitou.importWorker(meruemMessage.data);
+    let chimeraWorker = Pitou.buildChimeraWorker();
 
-    postMessage(JSON.stringify(controllerObject));
+    postMessage(JSON.stringify(chimeraWorker));
   }
 };
