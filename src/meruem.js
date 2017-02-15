@@ -1,16 +1,16 @@
-import Worker from 'worker-loader!./neferpitou.worker';
+import PitouDefaultWorker from 'worker-loader!./neferpitou.worker';
 
 /*
-    Module responsible for managing the controllers running in a web worker.
+    Module responsible for managing the chimera workers running in a web worker.
 */
 const Meruem = () => {
-  const _methodBuilder = (controller, worker) => {
-    let controllerWithMethods = {};
+  const _methodBuilder = (chimeraWorker, pitouDefaultWorker) => {
+    let chimeraWorkerWithMethods = {};
 
-    for (let method in controller) {
+    for (let method in chimeraWorker) {
       let methodRefence = method;
 
-      controllerWithMethods[methodRefence] = function () {
+      chimeraWorkerWithMethods[methodRefence] = function () {
         return new Promise(
             (resolve, reject) => {
               let functionCall = {
@@ -18,9 +18,9 @@ const Meruem = () => {
                 arguments: [].slice.call(arguments)
               };
 
-              worker.postMessage(JSON.stringify(functionCall));
-              worker.onmessage = e => {
-                let functionReturn = JSON.parse(e.data);
+              pitouDefaultWorker.postMessage(JSON.stringify(functionCall));
+              pitouDefaultWorker.onmessage = pitouMessage => {
+                let functionReturn = JSON.parse(pitouMessage.data);
 
                 if (functionReturn.hasOwnProperty('result')) {
                   resolve(functionReturn.result);
@@ -31,30 +31,30 @@ const Meruem = () => {
       };
     }
 
-    return controllerWithMethods;
+    return chimeraWorkerWithMethods;
   };
 
-  const _createControllerObject = controllerName => {
+  const _createChimeraWorker = workerName => {
     return new Promise(
         (resolve, reject) => {
-          let worker = new Worker();
+          let pitouDefaultWorker = new PitouDefaultWorker();
 
-          worker.postMessage(controllerName);
+          pitouDefaultWorker.postMessage(workerName);
 
-          worker.onmessage = e => {
-            let controller = JSON.parse(e.data);
+          pitouDefaultWorker.onmessage = e => {
+            let chimeraWorker = JSON.parse(e.data);
 
-            resolve(_methodBuilder(controller, worker));
+            resolve(_methodBuilder(chimeraWorker, pitouDefaultWorker));
           };
         }
     );
   };
 
-  const _setController = controllerName =>
-     _createControllerObject(controllerName);
+  const _setChimeraWorker = workerName =>
+     _createChimeraWorker(workerName);
 
   return {
-    setController: _setController
+    setChimeraWorker: _setChimeraWorker
   };
 };
 
