@@ -7,13 +7,9 @@ const Chimera = (() => {
   const _exportToWorker = functionsToExport =>
     workerManager.exportToWorker(functionsToExport);
 
-  const _executeInWorker = (...paramsAndFunction) =>
-    workerManager.executeInWorker(paramsAndFunction);
-
   return {
     setWorker: _setWorker,
-    exportToWorker: _exportToWorker,
-    executeInWorker: _executeInWorker
+    exportToWorker: _exportToWorker
   };
 })();
 
